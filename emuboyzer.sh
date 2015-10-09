@@ -16,5 +16,5 @@ wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.de
 sudo dpkg -i google-chrome*.deb > /dev/null
 rm google-chrome-stable_current_amd64.deb
 echo 'install dropbox'
-#cd ~ && wget -q -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
-#~/.dropbox-dist/dropboxd
+cd ~ && wget -q -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
+~/.dropbox-dist/dropboxd
