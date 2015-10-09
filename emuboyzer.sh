@@ -18,3 +18,16 @@ rm google-chrome-stable_current_amd64.deb
 echo 'install dropbox'
 cd ~ && wget -q -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
 ~/.dropbox-dist/dropboxd
+echo 'install spotify'
+# 1. Add the Spotify repository signing key to be able to verify downloaded packages
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys D2C19886
+
+# 2. Add the Spotify repository
+echo deb http://repository.spotify.com stable non-free | sudo tee /etc/apt/sources.list.d/spotify.list
+
+# 3. Update list of available packages
+sudo apt-get update > /dev/null
+
+# 4. Install Spotify
+sudo apt-get -y install spotify-client > /dev/null
+
