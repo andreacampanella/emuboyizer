@@ -3,7 +3,7 @@ echo 'This script need to run as user , not root.'
 echo 'updating apt database'
 sudo apt-get update > /dev/null 
 echo 'installing vim,zsh,git,screen,gtkterm,htop,powertop'
-sudo apt-get -y install vim zsh git-core screen gtkterm build-essential htop powertop libxss1 libappindicator1 libindicator7 vlc openssh-server > /dev/null
+sudo apt-get -y install inkscape vim zsh git-core screen arduino terminator gtkterm build-essential htop powertop libxss1 libappindicator1 libindicator7 vlc openssh-server > /dev/null
 echo 'installing oh-my-zsh'
 wget -q https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh 
 chsh -s `which zsh`
@@ -16,14 +16,18 @@ wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.de
 sudo dpkg -i google-chrome*.deb > /dev/null
 rm google-chrome-stable_current_amd64.deb
 echo 'install dropbox'
-cd ~ && wget -q -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
-~/.dropbox-dist/dropboxd
+
+wget -q https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_2015.10.28_amd64.deb 
+sudo dpkg -i dropbox_2015.10.28_amd64.deb 
+sudo apt-get install -f 
+rm dropbox_2015.10.28_amd64.deb 
+
 echo 'install spotify'
 # 1. Add the Spotify repository signing key to be able to verify downloaded packages
-sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys D2C19886
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys D2C19886
 
 # 2. Add the Spotify repository
-echo deb http://repository.spotify.com stable non-free | sudo tee /etc/apt/sources.list.d/spotify.list
+sudo sh -c 'echo "deb http://repository.spotify.com stable non-free" >> /etc/apt/sources.list.d/spotify.list'
 
 # 3. Update list of available packages
 sudo apt-get update > /dev/null
@@ -31,3 +35,7 @@ sudo apt-get update > /dev/null
 # 4. Install Spotify
 sudo apt-get -y install spotify-client > /dev/null
 
+#install kodi
+sudo add-apt-repository ppa:team-xbmc/ppa
+sudo apt-get update
+sudo apt-get install kodi 
