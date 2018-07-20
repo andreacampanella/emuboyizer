@@ -1,41 +1,46 @@
 #let's install vim
-echo 'This script need to run as user , not root.'
-echo 'updating apt database'
-sudo apt-get update > /dev/null 
-echo 'installing vim,zsh,git,screen,gtkterm,htop,powertop'
-sudo apt-get -y install inkscape vim zsh git-core screen arduino terminator gtkterm build-essential htop powertop libxss1 libappindicator1 libindicator7 vlc openssh-server > /dev/null
-echo 'installing oh-my-zsh'
+
+if [ "$(whoami)" = "root" ]; then
+	echo 'This script need to run as user , not root.'
+	exit 1
+fi
+
+echo 'Updating apt database'
+sudo apt-get update   
+
+echo 'Installing base system packages'
+sudo apt-get -y install inkscape vim zsh git-core screen arduino terminator gtkterm build-essential htop powertop libxss1 libappindicator1 libindicator7 vlc openssh-server   
+
+echo 'Installing oh-my-zsh'
 wget -q https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh 
 chsh -s `which zsh`
-echo 'installing custom color theme'
-wget -q https://raw.githubusercontent.com/seebi/dircolors-solarized/master/dircolors.256dark > /dev/null
-echo 'setting custom color'
-sudo mv dircolors.256dark /etc/dircolors > /dev/null
-echo 'install google chrome'
+
+echo 'Installing custom color theme'
+wget -q https://raw.githubusercontent.com/seebi/dircolors-solarized/master/dircolors.256dark   
+
+echo 'Setting custom colours'
+sudo mv dircolors.256dark /etc/dircolors   
+
+echo 'Installing Google Chrome'
 wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb 
-sudo dpkg -i google-chrome*.deb > /dev/null
+sudo dpkg -i google-chrome*.deb   
 rm google-chrome-stable_current_amd64.deb
-echo 'install dropbox'
 
-wget -q https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_2015.10.28_amd64.deb 
-sudo dpkg -i dropbox_2015.10.28_amd64.deb 
-sudo apt-get install -f 
-rm dropbox_2015.10.28_amd64.deb 
+echo 'Install Dropbox'
 
-echo 'install spotify'
+sudo apt-key adv --keyserver pgp.mit.edu --recv-keys 5044912E   
+if [ ! -f "/etc/apt/sources.list.d/dropbox.list" ];then
+	print "Seems like you already got dropbox's repo installed."
+    sudo sh -c 'echo "deb http://linux.dropbox.com/ubuntu/ xenial main" >> /etc/apt/sources.list.d/dropbox.list' 
+fi
+
+sudo apt-get update 
+sudo apt-get -y install dropbox 
+
+echo 'Install Spotify'
 # 1. Add the Spotify repository signing key to be able to verify downloaded packages
-sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys D2C19886
-
-# 2. Add the Spotify repository
-sudo sh -c 'echo "deb http://repository.spotify.com stable non-free" >> /etc/apt/sources.list.d/spotify.list'
-
-# 3. Update list of available packages
-sudo apt-get update > /dev/null
-
-# 4. Install Spotify
-sudo apt-get -y install spotify-client > /dev/null
-
+sudo snap install spotify
 #install kodi
-sudo add-apt-repository ppa:team-xbmc/ppa
-sudo apt-get update
-sudo apt-get install kodi 
+sudo add-apt-repository ppa:team-xbmc/ppa    
+sudo apt-get update    
+sudo apt-get -y install kodi     
